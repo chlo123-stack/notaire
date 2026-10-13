@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Notaire Consilium - Accueil</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ========== RESET & BASE ========== */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background: linear-gradient(180deg,#f7f7f7 0%, #fff 100%);
+      color:#111;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+
+    /* ===== COLORS ===== */
+    :root{
+      --black:#0f1113;
+      --soft-black:#161718;
+      --gold:#B89B36;
+      --muted:#6b6b6b;
+      --card-bg:rgba(255,255,255,0.95);
+      --glass: rgba(255,255,255,0.06);
+    }
+
+    /* ========== HEADER ========== */
+    header{
+      position:fixed;left:0;right:0;top:0;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 48px;background:rgba(255,255,255,0.9);
+      backdrop-filter: blur(4px);
+      box-shadow:0 6px 18px rgba(10,10,10,0.06);
+      z-index:1200;
+      animation: slideDown .9s cubic-bezier(.2,.9,.2,1);
+    }
+    @keyframes slideDown{from{transform:translateY(-20px);opacity:0}to{transform:none;opacity:1}}
+
+    .logo-wrap{display:flex;align-items:center;gap:14px}
+    .logo-wrap img{width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(0,0,0,0.12))}
+    .brand{
+      font-weight:800;color:var(--gold);font-size:20px;letter-spacing:0.6px;
+      text-transform:capitalize;
+    }
+    .contact-info{font-size:13px;color:var(--muted);text-align:right;line-height:1.15}
+    .contact-info p{margin-bottom:2px}
+
+/* ========== NAVBAR ========== */
+nav {
+  margin-top: 88px;
+  background: var(--soft-black);
+  display: flex;
+  justify-content: center;
+  padding: 12px 20px;
+  position: sticky;
+  top: 72px;
+  z-index: 1100;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+nav ul {
+  display: flex;
+  gap: 34px;
+  list-style: none;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: #fff;
+  font-weight: 600;
+  opacity: 0.95;
+  padding: 6px 4px;
+  border-radius: 6px;
+  transition: all 0.28s;
+}
+
+nav a:hover {
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+
+/* DROPDOWN */
+nav li {
+  position: relative;
+}
+
+/* Sous-menu */
+nav ul li ul {
+  position: absolute;
+  top: 38px;
+  left: 0;
+  min-width: 200px;
+  background: var(--soft-black);
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+
+  /* Fix pour animation + stable */
+  display: block;       /* obligatoire pour garder le layout horizontal correct */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.25s ease;
+  z-index: 1500;
+}
+
+/* Reste visible sur parent ou sous-menu */
+nav ul li:hover > ul,
+nav ul li ul:hover {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Items du sous-menu */
+nav ul li ul li {
+  padding: 8px 12px;
+}
+
+/* Animation pop (optionnelle) */
+@keyframes pop {
+  from { transform: translateY(-8px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+    /* ========== CAROUSEL HERO ========== */
+    .hero-carousel{position:relative;height:85vh;max-height:920px;overflow:hidden}
+    .slide{position:absolute;inset:0;opacity:0;transition:opacity 1s ease;will-change:opacity}
+    .slide.active{opacity:1;z-index:4}
+    .slide img.bg{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.55) saturate(.95)}
+    .hero-content{
+      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+      text-align:center;color:#fff;z-index:10;padding:18px 26px;backdrop-filter:blur(4px);
+      animation:heroIn .9s cubic-bezier(.2,.9,.2,1) .2s both;
+    }
+    @keyframes heroIn{from{transform:translate(-50%,-52%) scale(.98);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+    .hero-content h2{font-size:clamp(28px,4vw,44px);letter-spacing:0.6px;margin-bottom:10px;font-weight:800;color:var(--gold)}
+    .hero-content p{max-width:900px;margin:10px auto 20px;color:rgba(255,255,255,0.92);font-weight:500}
+    .btn-cta{display:inline-block;background:var(--gold);color:#fff;padding:12px 26px;border-radius:28px;font-weight:700;box-shadow:0 10px 26px rgba(184,155,54,.18);transition:transform .18s,box-shadow .18s}
+    .btn-cta:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,0.25);color:#fff}
+
+    /* small hero indicators */
+    .hero-indicators{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;gap:10px;z-index:20}
+    .hero-indicators button{width:12px;height:12px;border-radius:50%;border:none;background:rgba(255,255,255,0.45);cursor:pointer;transition:all .25s}
+    .hero-indicators button.active{transform:scale(1.35);background:var(--gold);box-shadow:0 6px 16px rgba(0,0,0,0.22)}
+
+    /* ===== Section: question + 4 cards ===== */
+    .container{max-width:1200px;margin:48px auto;padding:0 22px}
+    .lead-question{margin-top:36px;text-align:center}
+    .lead-question h3{font-size:24px;font-weight:800;color:var(--black);margin-bottom:8px}
+    .lead-question p{color:var(--muted);margin-bottom:18px}
+
+    .advantages{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:18px}
+    .card{
+      background:var(--card-bg);padding:20px;border-radius:14px;box-shadow:0 8px 28px rgba(15,15,15,0.06);
+      transition:transform .28s,box-shadow .28s;overflow:hidden;border:1px solid rgba(10,10,10,0.03)
+    }
+    .card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(10,10,10,0.09)}
+    .card .icon{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,rgba(184,155,54,0.15),rgba(184,155,54,0.06));display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--gold);margin-bottom:12px;font-size:20px}
+    .card h4{font-size:18px;margin-bottom:8px;font-weight:700}
+    .card p{color:var(--muted);font-size:14px}
+
+    @media (max-width:1100px){.advantages{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:640px){.advantages{grid-template-columns:1fr}.logo-wrap img{width:52px;height:52px}.brand{font-size:18px}}
+
+    /* ===== Big CTA CARD with blurred bg ===== */
+    .big-cta{
+      margin:42px 0;padding:36px;border-radius:18px;position:relative;overflow:hidden;
+      display:flex;align-items:center;gap:28px;background:linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.85));
+      box-shadow:0 20px 50px rgba(10,10,10,0.06);
+    }
+    .big-cta .bg-img{
+      position:absolute;inset:0;z-index:0;transform:scale(1.08);filter:blur(8px) brightness(.6);object-fit:cover}
+    .big-cta .overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(0,0,0,0.12), rgba(0,0,0,0.06));z-index:1}
+    .big-cta .content{position:relative;z-index:2;flex:1;color:var(--black)}
+    .big-cta h3{font-size:26px;color:var(--gold);font-weight:800;margin-bottom:8px}
+    .big-cta p{color:var(--muted);margin-bottom:16px;font-size:15px}
+    .big-cta .btn{background:var(--black);color:#fff;padding:12px 18px;border-radius:12px;font-weight:700;border:none;cursor:pointer;transition:transform .18s}
+    .big-cta .btn:hover{transform:translateY(-4px)}
+
+    /* ===== Moments de vie (two options) ===== */
+    .life-stage{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:36px;align-items:center}
+    .life-card{background:var(--card-bg);padding:22px;border-radius:14px;box-shadow:0 12px 36px rgba(10,10,10,0.05)}
+    .life-card h4{font-size:18px;margin-bottom:8px;color:var(--black)}
+    .life-card p{color:var(--muted);margin-bottom:12px}
+    .life-options{display:flex;gap:12px}
+    .life-option{flex:1;padding:14px;border-radius:10px;background:linear-gradient(180deg,#fff,#fbfbfb);border:1px solid rgba(0,0,0,0.04);text-align:center;transition:transform .22s}
+    .life-option:hover{transform:translateY(-6px)}
+    .family-image{width:100%;height:320px;border-radius:12px;object-fit:cover}
+
+    @media (max-width:980px){.life-stage{grid-template-columns:1fr}}
+
+    /* ===== INFO PRATIQUE + FAQ ===== */
+    .info-faq{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:34px}
+    .info{background:var(--card-bg);padding:18px;border-radius:12px}
+    .info h4{color:var(--gold);font-weight:800;margin-bottom:8px}
+    .info .meta{color:var(--muted);font-size:14px;line-height:1.6}
+    .faq{background:var(--card-bg);padding:18px;border-radius:12px}
+    .faq h4{font-weight:800;margin-bottom:12px}
+    .q{margin-bottom:10px}
+    .q p{font-weight:700;font-size:15px}
+    .q span{display:block;color:var(--muted);font-weight:500;margin-top:6px;font-size:14px}
+
+    /* ===== Testimonials carousel ===== */
+    .testimonials{margin-top:34px;background:linear-gradient(180deg,#fff,#fafafa);padding:26px;border-radius:12px;box-shadow:0 12px 36px rgba(10,10,10,0.04)}
+    .t-wrap{display:flex;gap:18px;align-items:center}
+    .t-carousel{overflow:hidden;width:100%}
+    .t-track{display:flex;gap:18px;transition:transform .7s cubic-bezier(.22,.9,.25,1)}
+    .t-item{min-width:320px;background:var(--card-bg);padding:18px;border-radius:12px;box-shadow:0 6px 20px rgba(10,10,10,0.04)}
+    .t-item p{color:var(--muted);font-size:14px;margin-bottom:8px}
+    .t-item h5{font-weight:700;color:var(--black);font-size:15px}
+
+    /* ===== FOOTER ===== */
+    footer{margin-top:44px;background:linear-gradient(180deg,#0f1113,#0b0b0b);color:#fff;padding:34px 22px;border-top:6px solid rgba(184,155,54,.18)}
+    .footer-top{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:1200px;margin:0 auto}
+    .footer-left{max-width:58%}
+    .footer-left h3{font-size:22px;color:var(--gold);margin-bottom:10px}
+    .footer-left p{color:rgba(255,255,255,0.85);margin-bottom:12px}
+    .footer-cta{display:flex;gap:12px;align-items:center}
+    .footer-cta .btn{background:var(--gold);color:#111;padding:10px 18px;border-radius:10px;border:none;font-weight:800;cursor:pointer}
+    .footer-right{text-align:right}
+    .footer-right img{width:72px;height:72px;object-fit:contain;margin-left:auto;margin-bottom:8px}
+    .footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:22px;flex-wrap:wrap;opacity:0.95;color:rgba(255,255,255,0.85)}
+    .small-meta{font-size:13px;color:rgba(255,255,255,0.75)}
+    @media (max-width:840px){.footer-top{flex-direction:column;align-items:flex-start}.footer-right{text-align:left}}
+
+    /* ===== Animations tiny ===== */
+    .fade-up{opacity:0;transform:translateY(10px);animation:fadeUp .7s forwards}
+    .fade-up.delay-1{animation-delay:.12s}.fade-up.delay-2{animation-delay:.22s}.fade-up.delay-3{animation-delay:.32s}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-wrap">
+      <img src="logo.jpg" alt="logo notaire">
+      <div>
+        <div class="brand">Notaire Consilium</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px">Office notarial & conseils juridiques</div>
+      </div>
+    </div>
+
+    <div class="contact-info">
+      <p>📍 01 BP 8977 Cotonou, Bénin</p>
+      <p>📞 +229 21 31 25 26/ 62 06 10 10</p>
+    </div>
+  </header>
+
+  <!-- NAVBAR -->
+  <nav>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li>
+        <a href="#">Nos services ▾</a>
+        <ul>
+          <li><a href="#">Droit immobilier</a></li>
+           <li><a href="#">Droit des affaires</a></li>
+            <li><a href="#">Droit de la famille</a></li>
+             <li><a href="#">Gestion patrimoniale</a></li>
+              <li><a href="#">Ingénierie patrimoniale</a></li>
+          <li><a href="#">Sécurisation juridique</a></li>
+          <li><a href="#">Droit international privé</a></li>
+        
+        </ul>
+      </li>
+      <li>
+        <a href="#">À propos ▾</a>
+        <ul>
+          <li><a href="bibliographie.html">Biographie du notaire</a></li>
+          <li><a href="equipe.html">Notre équipe</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO CAROUSEL -->
+  <section class="hero-carousel" aria-label="Carrousel principal">
+    <div class="slide active" data-index="0">
+      <img class="bg" src="facade.jpg" alt="justice & documents">
+      <div class="hero-content">
+        <h2>Votre confiance, notre engagement</h2>
+        <p>Notaire Consilium vous accompagne dans toutes les étapes juridiques importantes — patrimoine, famille, immobilier et contrats d'affaires.</p>
+        <a class="btn-cta" href="#services">En savoir plus</a>
+      </div>
+    </div>
+
+    <div class="slide" data-index="1">
+      <img class="bg" src="conseil.jpg" alt="conseil juridique">
+      <div class="hero-content">
+        <h2>Conseils sur-mesure, résultats concrets</h2>
+        <p>Des solutions claires et protégées par un accompagnement notarial reconnu.</p>
+        <a class="btn-cta" href="#contact">Contactez-nous</a>
+      </div>
+    </div>
+
+    <div class="slide" data-index="2">
+      <img class="bg" src="nous.jpg" alt="expertise notariale">
+      <div class="hero-content">
+        <h2>Expertise notariale au service de votre tranquillité</h2>
+        <p>Nous protégeons vos droits et assurons la sécurité juridique de vos projets familiaux et professionnels.</p>
+        <a class="btn-cta" href="#about">Notre office</a>
+      </div>
+    </div>
+
+    <!-- indicators -->
+    <div class="hero-indicators" aria-hidden="true">
+      <button class="active" data-to="0" aria-label="slide 1"></button>
+      <button data-to="1" aria-label="slide 2"></button>
+      <button data-to="2" aria-label="slide 3"></button>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="container">
+
+    <!-- LEAD QUESTION -->
+    <section class="lead-question fade-up delay-1">
+      <h3>Une question ? Pourquoi choisir un notaire pour protéger vos intérêts ?</h3>
+      <p>Le notaire apporte sécurité juridique, impartialité et expertise — trois piliers essentiels lorsque vos décisions ont un impact durable.</p>
+    </section>
+
+    <!-- 4 Advantages cards -->
+    <section class="advantages fade-up delay-2" id="services" aria-label="Avantages d'avoir un notaire">
+      <div class="card">
+        <div class="icon">1</div>
+        <h4>Sécurité juridique</h4>
+        <p>Les actes notariés garantissent la validité et l’opposabilité de vos décisions face à des tiers et aux administrations.</p>
+      </div>
+      <div class="card">
+        <div class="icon">2</div>
+        <h4>Conseil impartial</h4>
+        <p>Un notaire conseille toutes les parties en toute neutralité, ce qui évite les conflits et les erreurs coûteuses.</p>
+      </div>
+      <div class="card">
+        <div class="icon">3</div>
+        <h4>Conservation des actes</h4>
+        <p>Les documents importants sont conservés de façon sécurisée, ce qui facilite leur valeur probante et leur pérennité.</p>
+      </div>
+      <div class="card">
+        <div class="icon">4</div>
+        <h4>Transmission maîtrisée</h4>
+        <p>Planification des héritages, donations ou cessions : nous veillons à réduire les risques fiscaux et sociaux.</p>
+      </div>
+    </section>
+
+    <!-- BIG CTA CARD with blurred background -->
+    <section class="big-cta fade-up delay-3" aria-labelledby="cta-title">
+      <img class="bg-img" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1800&q=80" alt="" aria-hidden="true">
+      <div class="overlay" aria-hidden="true"></div>
+      <div class="content">
+        <h3 id="cta-title">Choisissez votre notaire sans frais supplémentaires</h3>
+        <p>Chez Notaire Consilium, la transparence est au cœur de notre pratique : aucun frais caché, un accompagnement clair et un service personnalisé dès le premier rendez-vous.</p>
+        <button class="btn" onclick="location.href='#contact'">Faites appel à notre office</button>
+      </div>
+    </section>
+
+    <!-- Life stages & family image -->
+    <section class="life-stage">
+      <div class="life-card">
+        <h4>Notre notaire vous conseille et vous accompagne à chaque étape de votre vie de famille</h4>
+        <p>Des unions aux successions, en passant par la protection des enfants et la transmission du patrimoine — nous sommes à vos côtés.</p>
+
+        <div class="life-options" aria-label="Moment heureux ou difficile">
+          <div class="life-option">
+            <h5 style="margin-bottom:6px">Moments de vie heureux</h5>
+            <p style="font-size:13px;color:var(--muted)">Mariage, achat immobilier, donation : nous préparons vos démarches pour sécuriser l'avenir.</p>
+          </div>
+          <div class="life-option">
+            <h5 style="margin-bottom:6px">Moments de vie difficiles</h5>
+            <p style="font-size:13px;color:var(--muted)">Séparation, succession, conflits : des solutions claires pour protéger vos intérêts.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <img class="family-image" src="pexels-n-voitkevich-4452201.jpg" alt="famille heureuse">
+      </div>
+    </section>
+
+    <!-- INFO PRATIQUE + FAQ -->
+    <section class="info-faq">
+      <div class="info">
+        <h4>Infos pratiques du notaire</h4>
+        <div class="meta">
+          <p><strong>Adresse :</strong>  01 BP 8977 Cotonou, Bénin</p>
+          <p><strong>Téléphone :</strong>+229 21 31 25 26/ 62 06 10 10</p>
+          <p><strong>Horaires :</strong> Lun - Ven : 08h30 - 19h00 • </p>
+          <p style="margin-top:8px"><strong>Prise de rendez-vous :</strong> Mardi et Jeudi.</p>
+        </div>
+      </div>
+
+      <div class="faq">
+        <h4>FAQ — réponses rapides</h4>
+
+        <div class="q">
+          <p>Quel est le rôle d'un notaire ?</p>
+          <span>Le notaire sécurise et authentifie vos actes pour leur valeur juridique et probante.</span>
+        </div>
+
+        <div class="q">
+          <p>Faut-il un notaire pour acheter une maison ?</p>
+          <span>Oui : l'acte de vente est généralement rédigé et authentifié par un notaire pour garantir la transaction.</span>
+        </div>
+
+        <div class="q">
+          <p>Peut-on modifier un testament ?</p>
+          <span>Oui : vous pouvez modifier ou révoquer un testament à tout moment, avec l'aide du notaire pour sécuriser la procédure.</span>
+        </div>
+
+        <div class="q">
+          <p>Combien coûte une consultation notariale ?</p>
+          <span>Les consultations sont claires et tarifées : contactez-nous pour un devis adapté à votre dossier.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials carousel -->
+    <section class="testimonials" aria-label="Témoignages">
+      <h4 style="margin-bottom:12px;font-weight:800;color:var(--soft-black)">Ils nous font confiance</h4>
+      <div class="t-wrap">
+        <div class="t-carousel" id="t-carousel" aria-hidden="false">
+          <div class="t-track" id="t-track">
+            <div class="t-item">
+              <p>"Notaire Consilium nous a accompagnés lors de notre achat immobilier — professionnalisme et disponibilité."</p>
+              <h5>— A. Kpodar</h5>
+            </div>
+            <div class="t-item">
+              <p>"Des conseils clairs et un suivi sans faille pendant la succession de mon père."</p>
+              <h5>— M. Adjovi</h5>
+            </div>
+            <div class="t-item">
+              <p>"Efficacité, transparence et tarifs honnêtes. Je recommande vivement."</p>
+              <h5>— L. Dossou</h5>
+            </div>
+            <div class="t-item">
+              <p>"Equipe réactive et humaine : ils ont su nous guider dans une période difficile."</p>
+              <h5>— F. Mensah</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-left">
+        <h3>Vous souhaitez poser une question ?</h3>
+        <p>Nous sommes disponibles pour répondre à vos questions juridiques et fixer un rendez-vous. N'hésitez pas à nous contacter — votre tranquillité commence par une bonne information.</p>
+        <div class="footer-cta">
+          <button class="btn" onclick="location.href='#contact'">Contacter nous</button>
+          <div style="color:rgba(255,255,255,0.9);font-weight:600">Ou appelez-nous : <span style="display:inline-block;margin-left:8px"> +229 21 31 25 26/ 62 06 10 10</span></div>
+        </div>
+      </div>
+
+      <div class="footer-right">
+        <img src="logo.jpg" alt="logo footer">
+        <div style="color:rgba(255,255,255,0.9);font-weight:600">Notaire Consilium</div>
+        <div style="color:rgba(255,255,255,0.7);font-size:13px;margin-top:6px">Office Notarial & Conseils Juridiques</div>
+      </div>
+    </div>
+
+    <div class="footer-bottom" style="max-width:1200px;margin:18px auto 0">
+      <div class="small-meta">© <strong>Notaire Consilium</strong> — Tous droits réservés • 2025</div>
+      <div style="display:flex;gap:18px;flex-wrap:wrap">
+        <div class="small-meta">Adresse : 01 BP 8977 Cotonou, Bénin</div>
+        <div class="small-meta">Tél : +229 21 31 25 26/ 62 06 10 10</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script>
+    /* ===== HERO CAROUSEL LOGIC ===== */
+    (function(){
+      const slides = document.querySelectorAll('.hero-carousel .slide');
+      const indicators = document.querySelectorAll('.hero-indicators button');
+      let idx = 0;
+      let auto = true;
+      const delay = 5200;
+
+      function show(i){
+        slides.forEach(s => s.classList.remove('active'));
+        indicators.forEach(b => b.classList.remove('active'));
+        slides[i].classList.add('active');
+        indicators[i].classList.add('active');
+        idx = i;
+      }
+
+      function next(){
+        show((idx + 1) % slides.length);
+      }
+
+      // auto rotate
+      let timer = setInterval(next, delay);
+
+      // indicator click
+      indicators.forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          clearInterval(timer);
+          show(parseInt(btn.dataset.to,10));
+          timer = setInterval(next, delay);
+        });
+      });
+
+      // pause on hover
+      const hero = document.querySelector('.hero-carousel');
+      hero.addEventListener('mouseenter', ()=> clearInterval(timer));
+      hero.addEventListener('mouseleave', ()=> timer = setInterval(next, delay));
+    })();
+
+    /* ===== TESTIMONIALS AUTO SCROLL ===== */
+    (function(){
+      const track = document.getElementById('t-track');
+      const items = document.querySelectorAll('.t-item');
+      const itemCount = items.length;
+      let pos = 0;
+      const step = items[0].getBoundingClientRect().width + 18; // width + gap
+      const interval = 3800;
+
+      // Duplicate items for infinite feel
+      // (simple approach: clone track children and append)
+      // but to keep things light we will loop transform and reset
+      function move(){
+        pos -= step;
+        track.style.transform = 'translateX(' + pos + 'px)';
+        // when we've scrolled past the width (one full loop), reset
+        if(Math.abs(pos) >= step * itemCount){
+          setTimeout(()=> {
+            // reset without transition for seamless loop
+            track.style.transition = 'none';
+            pos = 0;
+            track.style.transform = 'translateX(0px)';
+            // force reflow then restore transition
+            requestAnimationFrame(()=> {
+              requestAnimationFrame(()=> {
+                track.style.transition = 'transform .7s cubic-bezier(.22,.9,.25,1)';
+              });
+            });
+          }, 720);
+        }
+      }
+
+      // ensure transition property exists
+      track.style.transition = 'transform .7s cubic-bezier(.22,.9,.25,1)';
+      let tId = setInterval(move, interval);
+
+      // pause on hover
+      const carousel = document.getElementById('t-carousel');
+      carousel.addEventListener('mouseenter', ()=> clearInterval(tId));
+      carousel.addEventListener('mouseleave', ()=> tId = setInterval(move, interval));
+    })();
+
+    /* ===== Small fade-up triggers for elements on load ===== */
+    document.addEventListener('DOMContentLoaded', ()=>{
+      document.querySelectorAll('.fade-up').forEach(el=>{
+        // force reflow for stagger effect already handled by CSS delay classes
+      });
+    });
+  </script>
+
+</body>
+</html>
